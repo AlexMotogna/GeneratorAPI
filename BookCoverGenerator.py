@@ -50,9 +50,11 @@ def load_models(n_words):
     if cfg.CUDA:
         netG.cuda()
         text_encoder.cuda()
+        netD.cuda()
     
     text_encoder.eval()
     netG.eval()
+    netD.eval()
 
     return text_encoder, netG, netD
 

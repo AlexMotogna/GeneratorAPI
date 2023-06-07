@@ -22,7 +22,7 @@ def generateBookCover():
 
 
 if __name__ == '__main__':
-    ixtoword, wordtoix, n_words = load_encoding('captions.pickle')
+    _, wordtoix, n_words = load_encoding('captions.pickle')
     text_encoder, netG, netD = load_models(n_words)
     vocab = loadVocab()
     app.run(host="0.0.0.0", port=5000, debug=True)
