@@ -108,12 +108,8 @@ def generate(captions, cap_lenght, netG, netD, text_encoder):
         im = fake_imgs[2][0].data.cpu().numpy()
         im = (im + 1.0) * 127.5
         im = im.astype(np.uint8)
-        # print('im', im.shape)
         im = np.transpose(im, (1, 2, 0))
-        # print('im', im.shape)
         im = Image.fromarray(im)
-        # fullpath = '%s_g%d.png' % ("output/img", 2)
-        # im.save(fullpath)
 
     return im, condScore, unCondScore
 
@@ -123,21 +119,28 @@ def getBookCoverByTitle(title, wordtoix, netG, netD, text_encoder):
     return generate(captions, cap_length, netG, netD, text_encoder)
 
 
-def getBookCovers(originalTitle, wordtoix, netG, netD, text_encoder, vocab):
-    im, condScore, unCondScore = getBookCoverByTitle(originalTitle, wordtoix, netG, netD, text_encoder)
-    # print(condScore)
-    # print(unCondScore)
-    # im.save("output/img.png")
-    return im
+def getBookCovers(originalTitle, wordtoix, netG, netD, text_encoder, vocab, imgCount):
+    newTitles = generateNewTitles(originalTitle, vocab, imgCount)
+    
+    imgs = []
+
+    for title in newTitles:
+        im, condScore, unCondScore = getBookCoverByTitle(title, wordtoix, netG, netD, text_encoder)
+        imgs.append(im)
+
+    return imgs
 
 
 # if __name__ == '__main__':
-#     title = "cow and friends"
+#     title = "dragon fire"
 
 #     ixtoword, wordtoix, n_words = load_encoding('captions.pickle')
 #     text_encoder, netG, netD = load_models(n_words)
 #     vocab = loadVocab()
 
-#     getBookCovers(title, wordtoix, netG, netD, text_encoder, vocab)
+#     imgs = getBookCovers(title, wordtoix, netG, netD, text_encoder, vocab, 6)
+#     for step, img in enumerate(imgs):
+#         img.save("output/img" + str(step) + ".png")
+
 
 

@@ -56,16 +56,32 @@ def processWord(word, vocab):
     return synomyns + newWords
 
 
-def generateNewTitles(title, vocab):
+def generateNewTitles(title, vocab, titleCount):
     words = title.split()
     tags = nltk.pos_tag(words)
+
+    newTitleMap = []
 
     for word, tag in tags:
         if tag in ["NN", "NNS", "NNP", "VBZ", "VBP", "VBN", "VBG", "VBD", "VB"]:
             newWords = processWord(word, vocab)
-            print(newWords)
+            newTitleMap.append(newWords)
+        else:
+            newTitleMap.append([word])
 
-    return
+    newTitlesList = [title]
+
+    for i in range(titleCount - 1):
+        newTitle = ""
+        for words in newTitleMap:
+            try:
+                newTitle += words[i]
+            except IndexError:
+                newTitle += words[0]
+            newTitle += " "
+        newTitlesList.append(newTitle[:-1])
+
+    return newTitlesList
 
 
-# print(generateNewTitles("dark night", loadVocab()))
+# print(generateNewTitles("dragon in fire", loadVocab(), 6))

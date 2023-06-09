@@ -14,9 +14,10 @@ vocab = None
 @app.route("/", methods=['GET'])
 def generateBookCover():
     data = request.json
-    im = getBookCovers(data["title"], wordtoix, netG, netD, text_encoder, vocab)
+    imgs = getBookCovers(data["title"], wordtoix, netG, netD, text_encoder, vocab, 1)
+    img = imgs[0]
     img_io = BytesIO()
-    im.save(img_io, 'PNG')
+    img.save(img_io, 'PNG')
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
 
