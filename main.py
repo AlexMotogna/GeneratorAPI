@@ -25,11 +25,20 @@ def get_response_image(img):
 @app.route("/generateCovers", methods=['POST'])
 def generateBookCovers():
     data = request.json
-    imgs = getBookCovers(data["title"], wordtoix, netG, netD, text_encoder, vocab, 6)
+    imgs = getBookCovers(data["title"], wordtoix, netG, netD, text_encoder, vocab, 10)
+
+    actualImg = imgs[0]
+    imgs = imgs[1:]
+
+    imgs.sort(key=lambda x: x.uncondScore, reverse=True)
+
+    imgs = imgs[0:5]
+
+    imgs.insert(0, actualImg)
 
     encoded_img = []
     for img in imgs:
-        encoded_img.append(get_response_image(img))
+        encoded_img.append(get_response_image(img.img))
 
     return jsonify({'result': encoded_img})
 
@@ -38,7 +47,7 @@ def generateBookCovers():
 def generateBookCover():
     data = request.json
     imgs = getBookCovers(data["title"], wordtoix, netG, netD, text_encoder, vocab, 1)
-    img = imgs[0]
+    img = imgs[0].img
     img_io = BytesIO()
     img.save(img_io, 'PNG')
     img_io.seek(0)

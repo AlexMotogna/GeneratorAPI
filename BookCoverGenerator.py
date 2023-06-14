@@ -79,7 +79,7 @@ def getDiscriminatorScore(netD, images, condition):
     features = netD(images.detach())
     cond_logits = netD.COND_DNET(features, condition)
     uncond_logits = netD.UNCOND_DNET(features)
-    return cond_logits, uncond_logits
+    return cond_logits.item(), uncond_logits.item()
 
 
 def generate(captions, cap_lenght, netG, netD, text_encoder):
@@ -116,7 +116,8 @@ def generate(captions, cap_lenght, netG, netD, text_encoder):
 
 def getBookCoverByTitle(title, wordtoix, netG, netD, text_encoder):
     captions, cap_length = vectorize_title(wordtoix, title)
-    return generate(captions, cap_length, netG, netD, text_encoder)
+    im, condScore, unCondScore = generate(captions, cap_length, netG, netD, text_encoder)
+    return GeneratedImage(im, title, condScore, unCondScore)
 
 
 def getBookCovers(originalTitle, wordtoix, netG, netD, text_encoder, vocab, imgCount):
@@ -125,22 +126,15 @@ def getBookCovers(originalTitle, wordtoix, netG, netD, text_encoder, vocab, imgC
     imgs = []
 
     for title in newTitles:
-        im, condScore, unCondScore = getBookCoverByTitle(title, wordtoix, netG, netD, text_encoder)
-        imgs.append(im)
+        result = getBookCoverByTitle(title, wordtoix, netG, netD, text_encoder)
+        imgs.append(result)
 
     return imgs
 
 
-# if __name__ == '__main__':
-#     title = "dragon fire"
-
-#     ixtoword, wordtoix, n_words = load_encoding('captions.pickle')
-#     text_encoder, netG, netD = load_models(n_words)
-#     vocab = loadVocab()
-
-#     imgs = getBookCovers(title, wordtoix, netG, netD, text_encoder, vocab, 6)
-#     for step, img in enumerate(imgs):
-#         img.save("output/img" + str(step) + ".png")
-
-
-
+class GeneratedImage:
+    def __init__(self, img, title, condScore, uncondScore):
+        self.img = img
+        self.title = title
+        self.condScore = condScore
+        self.uncondScore = uncondScore
