@@ -46,6 +46,12 @@ def processWord(word, vocab):
         #Hypernyms
         processSynset(synset.hypernyms(), newSynsets, vocab)
 
+        # Holonyms
+        processSynset(synset.part_holonyms(), newSynsets, vocab)
+
+        # Meronyms
+        processSynset(synset.part_meronyms(), newSynsets, vocab)
+
         #Co-Hyponyms
         for hypernym in synset.hypernyms():
             processSynset(hypernym.hyponyms(), newSynsets, vocab)

@@ -36,7 +36,7 @@ __C.TRAIN.ENCODER_LR = 2e-4
 __C.TRAIN.RNN_GRAD_CLIP = 0.25
 __C.TRAIN.FLAG = True
 __C.TRAIN.NET_E = 'models/text_encoder550.pth'
-__C.TRAIN.NET_G = 'models/netG_epoch_225.pth'
+__C.TRAIN.NET_G = 'models/netG_epoch_450.pth'
 __C.TRAIN.NET_D = 'models/netD2.pth'
 __C.TRAIN.B_NET_D = True
 
@@ -51,7 +51,7 @@ __C.TRAIN.SMOOTH.LAMBDA = 1.0
 __C.GAN = edict()
 __C.GAN.DF_DIM = 64
 __C.GAN.GF_DIM = 128
-__C.GAN.Z_DIM = 256
+__C.GAN.Z_DIM = 100
 __C.GAN.CONDITION_DIM = 100
 __C.GAN.R_NUM = 2
 __C.GAN.B_ATTENTION = True

@@ -10,11 +10,11 @@ from torchsummary import summary
 from torchvision import models
 import torchvision.transforms as transforms
 from BookCoverGenerator import getBookCovers, load_encoding, load_models, GeneratedImage
-from NewTitleGenerator import loadVocab
+from NewTitleGenerator import loadVocab, processWord, generateNewTitles
 
 
 if __name__ == '__main__':
-    title = "knights of the order"
+    title = "Flying over the clouds"
 
     _, wordtoix, n_words = load_encoding('captions.pickle')
     text_encoder, netG, netD = load_models(n_words)
@@ -27,11 +27,12 @@ if __name__ == '__main__':
 
     imgs.sort(key=lambda x: x.uncondScore, reverse=True)
 
-    imgs = imgs[0:5]
+    # imgs = imgs[0:5]
 
     imgs.insert(0, actualImg)
 
     for step, img in enumerate(imgs):
         img.img.save("output/img" + str(step) + ".png")
-        print(img.title, img.condScore, img.uncondScore)
+        print(img.title, img.condScore, img.uncondScore, str(step))
+
 
