@@ -1,10 +1,11 @@
 from flask import Flask, request, send_file, jsonify
 from BookCoverGenerator import getBookCovers, load_encoding, load_models
-from NewTitleGenerator import loadVocab
+from Vocabulary import loadVocab
 from io import BytesIO
 from PIL import Image
 from base64 import encodebytes
 import io
+import GeneratedImage
 
 
 app = Flask(__name__)

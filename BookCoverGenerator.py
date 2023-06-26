@@ -8,7 +8,8 @@ from PIL import Image
 from torch.autograd import Variable
 from torchsummary import summary
 from torchvision import models
-from NewTitleGenerator import generateNewTitles, loadVocab
+from NewTitleGenerator import generateNewTitles
+import GeneratedImage
 
 
 if sys.version_info[0] == 2:
@@ -130,11 +131,3 @@ def getBookCovers(originalTitle, wordtoix, netG, netD, text_encoder, vocab, imgC
         imgs.append(result)
 
     return imgs
-
-
-class GeneratedImage:
-    def __init__(self, img, title, condScore, uncondScore):
-        self.img = img
-        self.title = title
-        self.condScore = condScore
-        self.uncondScore = uncondScore

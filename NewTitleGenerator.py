@@ -3,13 +3,6 @@ from nltk.corpus import wordnet as wn
 from collections import defaultdict
 
 
-def loadVocab():
-    f = open("vocab.txt", 'r')
-    words = f.read().splitlines()
-    f.close()
-    return words
-
-
 def isWordInDataset(word, vocab):
     return word in vocab
 
@@ -26,7 +19,7 @@ def processSynset(synsets, newSynsets, vocab):
             newSynsets.add(synset)
 
 
-def processWord(word, vocab):
+def getRelatedWords(word, vocab):
     wordSynset = wn.synsets(word)
     newSynsets = set()
     word_counts = defaultdict(float)
@@ -70,7 +63,7 @@ def generateNewTitles(title, vocab, titleCount):
 
     for word, tag in tags:
         if tag in ["NN", "NNS", "NNP", "VBZ", "VBP", "VBN", "VBG", "VBD", "VB"]:
-            newWords = processWord(word, vocab)
+            newWords = getRelatedWords(word, vocab)
             newTitleMap.append(newWords)
         else:
             newTitleMap.append([word])
