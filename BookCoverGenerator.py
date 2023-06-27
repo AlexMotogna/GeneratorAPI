@@ -9,7 +9,7 @@ from torch.autograd import Variable
 from torchsummary import summary
 from torchvision import models
 from NewTitleGenerator import generateNewTitles
-import GeneratedImage
+from GeneratedImage import GeneratedImage
 
 
 if sys.version_info[0] == 2:

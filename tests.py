@@ -10,12 +10,12 @@ from torchsummary import summary
 from torchvision import models
 import torchvision.transforms as transforms
 from BookCoverGenerator import getBookCovers, load_encoding, load_models, GeneratedImage
-from NewTitleGenerator import processWord, generateNewTitles
+from NewTitleGenerator import generateNewTitles
 from Vocabulary import loadVocab
 
 
 if __name__ == '__main__':
-    title = "Forbidden Love"
+    title = "adventure in a forest"
 
     _, wordtoix, n_words = load_encoding('captions.pickle')
     text_encoder, netG, netD = load_models(n_words)
